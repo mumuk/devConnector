@@ -5,8 +5,12 @@ const router = express.Router()
 const auth = require('../../middleware/auth')
 const {body, check, validationResult} = require('express-validator') //подключение проверки
 
+
+
+
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
+
 
 // @route GET api/profile/me
 // @desc Get current users profile
@@ -110,10 +114,7 @@ router.post('/', [auth,
       res.status(500).send('Server Error')
     }
 
-
-    res.send(profileFields)
-
-
+    //res.send(profileFields)
   }
 )
 
@@ -137,7 +138,7 @@ router.get('/', async (req, res) => {
 
 router.get('/user/:user_id', async (req, res) => {
   try {
-    const profile = await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar'])
+    const profile = await Profile.findOne({user: req.params.user_id}).populate('users', ['name', 'avatar'])
 
     if (!profile) return res.status(400).json({msg: 'Profile not found'})
     res.json(profile)
